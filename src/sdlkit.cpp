@@ -91,7 +91,7 @@ void ddkUnlock ()
 SDL_Window * window;
 SDL_Renderer * renderer;
 
-void ddkSetMode (int width, int height, int bpp, int refreshrate, int fullscreen, const char *title)
+void ddkSetMode (int width, int height, int fullscreen, const char *title)
 {
 	window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN | (fullscreen ? SDL_WINDOW_FULLSCREEN : 0));
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
@@ -193,7 +193,7 @@ bool ioExists(const std::string& filename)
     return (access(filename.c_str(), 0) == 0);
 }
 
-bool ioNew(const std::string& filename, bool readable, bool writeable)
+bool ioNew(const std::string& filename)
 {
     if(ioExists(filename))
         return false;
@@ -308,7 +308,7 @@ void DrawFileSelectScreen(std::list<std::string>& files, char* buf, bool& gotFil
 		string s = new_file(".sfxr");
 		if(s != "")
 		{
-			ioNew(s, true, true);
+			ioNew(s);
 			files = ioList(".", false, true);
 			
 			for(list<string>::iterator e = files.begin(); e != files.end();)

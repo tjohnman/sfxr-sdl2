@@ -1,12 +1,17 @@
 TARGET = sfxr-sdl2
-CC=cc
-LD=ld
-CFLAGS = -std=c++11 -g -Wall -Wextra `sdl2-config --cflags`
+DEBUGFLAGS = -g -Wall -Wextra
+CFLAGS = -std=c++11 `sdl2-config --cflags`
 LFLAGS = `sdl2-config --libs` -lSDL2_image
-SRC = $(wildcard *.c)
-OBJ = $(patsubst %.c,%.o,$(SRC))
-DEP = $(patsubst %.c,%.d,%(SRC))
 
 all: images
-	pushd build && g++ ../src/*.cpp $(CFLAGS) $(LFLAGS) -o $(TARGET) && chmod +x $(TARGET) && popd
+	mkdir -p build && pushd build && g++ ../src/*.cpp $(CFLAGS) $(LFLAGS) -o $(TARGET) && chmod +x $(TARGET) && popd
+
+debug: images
+	mkdir -p build && pushd build && g++ ../src/*.cpp $(DEBUGFLAGS) $(CFLAGS) $(LFLAGS) -o $(TARGET) && chmod +x $(TARGET) && popd
+
+images:
 	cp -rf images build/
+
+.PHONY: images
+clean:
+	rm -rf build

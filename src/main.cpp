@@ -546,7 +546,7 @@ static void SDLAudioCallback(void *userdata, Uint8 *stream, int len)
 	{
 		unsigned int l = len/2;
 		float* fbuf = new float[l];
-		memset(fbuf, 0, sizeof(fbuf));
+		memset(fbuf, 0, sizeof(float));
 		SynthSample(l, fbuf, NULL);
 		while (l--)
 		{
@@ -1321,7 +1321,7 @@ void ddkInit()
 {
 	srand(time(NULL));
 
-	ddkSetMode(640,480, 32, 60, DDK_WINDOW, "sfxr"); // requests window size etc from ddrawkit
+	ddkSetMode(640,480, DDK_WINDOW, "sfxr"); // requests window size etc from ddrawkit
 
 	if (LoadTGA(font, "/usr/local/share/sfxr/images/font.tga")) {
         	/* Try again in cwd */

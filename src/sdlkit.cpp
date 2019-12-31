@@ -33,9 +33,9 @@ void error (const char *file, unsigned int line, const char *msg)
 }
 
 
-bool keys[SDLK_LAST];
+std::map<SDL_Keycode, bool> keys;
 
-bool DPInput::KeyPressed(SDLKey key)
+bool DPInput::KeyPressed(SDL_Keycode key)
 {
 	bool r = keys[key];
 	keys[key] = false;
@@ -88,14 +88,24 @@ void ddkUnlock ()
 	}
 }
 
+SDL_Window * window;
+SDL_Renderer * renderer;
+
 void ddkSetMode (int width, int height, int bpp, int refreshrate, int fullscreen, const char *title)
 {
-	VERIFY(sdlscreen = SDL_SetVideoMode(width, height, bpp, fullscreen ? SDL_FULLSCREEN : 0));
-	SDL_WM_SetCaption(title, title);
+	window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN | (fullscreen ? SDL_WINDOW_FULLSCREEN : 0));
+	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
+	SDL_SetWindowTitle(window, title);
+	sdlscreen = SDL_GetWindowSurface(window);
+
+	if(!sdlscreen) {
+		std::cout << SDL_GetError() << std::endl;
+		exit(1);
+	}
 }
 
 #include <string.h>
-#include <malloc.h>
+#include <cstdlib>
 
 
 bool Button(int x, int y, bool highlight, const char* text, int id);
@@ -176,6 +186,7 @@ std::string stoupper(const std::string& s)
 	return result;
 }
 
+#include <unistd.h>
 
 bool ioExists(const std::string& filename)
 {
@@ -205,8 +216,6 @@ extern Spriteset font;
 std::string new_file(const std::string& forced_extension)
 {
 	using namespace std;
-	SDL_EnableUNICODE(1);
-	SDL_EnableKeyRepeat(0, 0);
 	
 	string result;
 	
@@ -233,9 +242,9 @@ std::string new_file(const std::string& forced_extension)
 					}
 					
 					{
-						char c = e.key.keysym.unicode;
+						SDL_Keycode c = e.key.keysym.sym;
 						if(0x21 <= c && c <= 0x7E)
-							result += c;
+							result += e.key.keysym.sym;
 					}
 		
 				default: break;
@@ -249,12 +258,9 @@ std::string new_file(const std::string& forced_extension)
 		DrawText(font, 100, 200, 0x000000, "%s", stoupper(result).c_str());
 
 		SDL_Delay(5);
-		
-		SDL_Flip(sdlscreen);
-	}
 	
-	SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
-	SDL_EnableUNICODE(0);
+		SDL_UpdateWindowSurface(window);
+	}
 	
 	//if(result.size() == 0)
 	//	throw runtime_error("New file name is empty string.");
@@ -366,7 +372,7 @@ bool select_file (char *buf, bool showNewButton)
 
 		SDL_Delay(5);
 		
-		SDL_Flip(sdlscreen);
+		SDL_UpdateWindowSurface(window);
 	}
 	return gotFile;
 }
@@ -385,9 +391,9 @@ void sdlinit ()
 	if (!icon)
 		icon = SDL_LoadBMP("images/sfxr.bmp");
 	if (icon)
-		SDL_WM_SetIcon(icon, NULL);
+		SDL_SetWindowIcon(window, icon);
 	atexit(sdlquit);
-	memset(keys, 0, sizeof(keys));
+	keys.clear();
 	ddkInit();
 }
 
@@ -410,7 +416,7 @@ void loop (void)
 		sdlupdate();
 		if (!ddkCalcFrame())
 			return;
-		SDL_Flip(sdlscreen);
+		SDL_UpdateWindowSurface(window);
 	}
 }
 

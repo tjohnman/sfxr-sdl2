@@ -23,8 +23,10 @@
 #ifndef SDLKIT_H
 #define SDLKIT_H
 
-#include "SDL.h"
+#include "SDL2/SDL.h"
 #include <string>
+#include <map>
+#include <iostream>
 
 
 #define ERROR(x) error(__FILE__, __LINE__, #x)
@@ -61,7 +63,7 @@ public:
 	~DPInput() {}
 	static void Update () {}
 
-	static bool KeyPressed(SDLKey key);
+	static bool KeyPressed(SDL_Keycode key);
 
 };
 

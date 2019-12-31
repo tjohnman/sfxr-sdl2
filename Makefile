@@ -7,5 +7,6 @@ SRC = $(wildcard *.c)
 OBJ = $(patsubst %.c,%.o,$(SRC))
 DEP = $(patsubst %.c,%.d,%(SRC))
 
-all:
-	pushd src && g++ *.cpp $(CFLAGS) $(LFLAGS) -o $(TARGET) && popd
+all: images
+	pushd build && g++ ../src/*.cpp $(CFLAGS) $(LFLAGS) -o $(TARGET) && chmod +x $(TARGET) && popd
+	cp -rf images build/

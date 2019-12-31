@@ -1,7 +1,7 @@
 TARGET = sfxr-sdl2
 DEBUGFLAGS = -g -Wall -Wextra
 CFLAGS = -std=c++11 `sdl2-config --cflags`
-LFLAGS = `sdl2-config --libs` -lSDL2_image
+LFLAGS = `sdl2-config --libs`
 
 all: images
 	mkdir -p build && pushd build && g++ ../src/*.cpp $(CFLAGS) $(LFLAGS) -o $(TARGET) && chmod +x $(TARGET) && popd

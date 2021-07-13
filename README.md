@@ -6,7 +6,7 @@ sfxr is a generator for simple sound effects, created by DrPetter (http://www.dr
 Ported to SDL2 from: [grimfang4/sfxr](https://github.com/grimfang4/sfxr).
 
 ## Download
-- There is a pre-packaged [Windows build](https://github.com/tjohnman/sfxr-sdl2/releases/latest) for convenience.
+- You can find pre-packaged [releases](https://github.com/tjohnman/sfxr-sdl2/releases/latest) for macOS and Windows.
 
 ## Dependencies
 - [SDL2](https://www.libsdl.org/download-2.0.php)

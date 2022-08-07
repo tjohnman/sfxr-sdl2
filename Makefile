@@ -1,3 +1,4 @@
+SHELL = /bin/bash
 TARGET = sfxr-sdl2
 DEBUGFLAGS = -g -Wall -Wextra
 CFLAGS = -std=c++11 `sdl2-config --cflags`

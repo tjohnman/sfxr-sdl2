@@ -25,3 +25,9 @@ Ported to SDL2 from: [grimfang4/sfxr](https://github.com/grimfang4/sfxr).
 - Install [MinGW](https://sourceforge.net/projects/mingw-w64/files/latest/download) and [SDL2](https://www.libsdl.org/download-2.0.php).
 - Extract SDL2 to the sfxr-sdl2-master directory or wherever you wish.
 - Using MinGW's command line, `cd` into the sfxr-sdl2-master and run `g++ src/*.cpp -ISDL2-2.0.14/x86_64-w64-mingw32/include -LSDL2-2.0.14/x86_64-w64-mingw32/lib -lmingw32 -lSDL2main -lSDL2 -mwindows -o sfxr-sdl2.exe`. **Make sure to adjust your "include" and "lib" directories to your actual SDL2 location if needed**.
+
+## Installing
+Build files will be in the `build` subdirectory.
+You can use `sudo make install` on Linux and macOS to install the program as `sfxr-sdl2`. The `uninstall` target is also available.
+
+On Windows, you can copy the files in the `build` subdirectory to wherever you want.

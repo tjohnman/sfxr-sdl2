@@ -13,6 +13,16 @@ debug: images
 images:
 	cp -rf images build/
 
+install:
+	mkdir -p /usr/local/share/sfxr/images/
+	cp -f build/*.tga /usr/local/share/sfxr/images/
+	chmod +x build/sfxr-sdl2
+	cp build/sfxr-sdl2 /usr/bin/
+
+uninstall:
+	rm -rf /usr/local/share/sfxr
+	rm /usr/bin/sfxr-sdl2
+
 .PHONY: images
 clean:
 	rm -rf build

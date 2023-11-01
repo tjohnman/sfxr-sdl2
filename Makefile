@@ -11,11 +11,12 @@ debug: images
 	mkdir -p build && pushd build && g++ ../src/*.cpp $(DEBUGFLAGS) $(CFLAGS) $(LFLAGS) -o $(TARGET) && chmod +x $(TARGET) && popd
 
 images:
-	cp -rf images build/
+	mkdir -p build/images
+	cp -rf images/* build/images/
 
 install:
 	mkdir -p /usr/local/share/sfxr/images/
-	cp -f build/*.tga /usr/local/share/sfxr/images/
+	cp -f build/images/*.tga /usr/local/share/sfxr/images/
 	chmod +x build/sfxr-sdl2
 	cp build/sfxr-sdl2 /usr/bin/
 
